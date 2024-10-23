@@ -1,3 +1,5 @@
+# Forked from github.com/nshafer/phx
+
 # Phx - A Phoenix Channels client for Go
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/nshafer/phx.svg)](https://pkg.go.dev/github.com/nshafer/phx) [![Static Badge](https://img.shields.io/badge/changelog-blue)](https://github.com/nshafer/phx/releases)

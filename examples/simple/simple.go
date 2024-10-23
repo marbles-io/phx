@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/nshafer/phx"
 	"log"
 	"net/url"
+
+	"github.com/marbles-io/phx"
 )
 
 // This example works with a simple channel generated with:

@@ -223,8 +223,8 @@ func (c *Channel) Push(event string, payload any) (*Push, error) {
 func (c *Channel) On(event string, callback func(payload any)) (bindingRef Ref) {
 	bindingRef = c.refGenerator.nextRef()
 
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
 	c.bindings[bindingRef] = &channelBinding{
 		event:    event,
@@ -239,8 +239,8 @@ func (c *Channel) On(event string, callback func(payload any)) (bindingRef Ref) 
 func (c *Channel) OnRef(ref Ref, event string, callback func(payload any)) (bindingRef Ref) {
 	bindingRef = c.refGenerator.nextRef()
 
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
 	c.bindings[bindingRef] = &channelBinding{
 		ref:      ref,
@@ -279,8 +279,8 @@ func (c *Channel) Off(bindingRef Ref) {
 
 // Clear removes all bindings for the given event
 func (c *Channel) Clear(event string) {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
 	for ref, binding := range c.bindings {
 		if binding.event == event {
@@ -339,8 +339,8 @@ func (c *Channel) process(msg *Message) {
 // ref, only call the callback if the ref matches. This is so that Push can process ReplyEvents that only match its
 // ref, thus are a reply to that specific Push.
 func (c *Channel) trigger(event string, ref Ref, payload any) {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
 	// For a given channelBinding to get called it must match the event and either have ref == 0 or match the ref
 	for _, binding := range c.bindings {
